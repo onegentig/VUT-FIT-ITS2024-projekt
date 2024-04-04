@@ -1,0 +1,24 @@
+{
+     "default": true,
+     "MD003": {
+          "style": "atx"
+     },
+     "MD004": {
+          "style": "dash"
+     },
+     "MD011": true,
+     "MD013": {
+          "line_length": 80,
+          "tables": false
+     },
+     "MD029": {
+          "style": "ordered"
+     },
+     "MD033": false,
+     "MD049": {
+          "style": "asterisk"
+     },
+     "MD050": {
+          "style": "asterisk"
+     }
+}

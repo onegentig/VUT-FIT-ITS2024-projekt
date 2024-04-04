@@ -1,6 +1,6 @@
-# IXX PREDLOHA, FIT VUT 20XX #
+# ITS PROJEKT, FIT VUT 2024 #
 
-* Projekt (testovací sada pro OpenCart) z předmětu Testování a dynamická analýza (ITS), šestý semestr bakalářského studia BIT na FIT VUT/BUT, ak.rok 2023/2024*
+*Projekt (testovací sada pro OpenCart) z předmětu Testování a dynamická analýza (ITS), šestý semestr bakalářského studia BIT na FIT VUT/BUT, ak.rok 2023/2024*
 
 🔒 **Aktivní soukromý repozitář – nezveřejňovat!**
 <!-- 🗄️ **Soukromý archivovaný repozitář!** -->
@@ -15,12 +15,12 @@ Celkové Hodnotenie: ?? / 40<br />（?）
 
 Hodnocení: ?? / 20<br />（?）
 
-Zadanie: [README.md](1/README.md), originál [PRIVATE PDF](https://moodle.vut.cz/pluginfile.php/707475/mod_folder/intro/projekt1-zadani-2024.pdf)
+Zadanie: [ZADANI.md](1/ZADANI.md), originál [PRIVATE PDF](https://moodle.vut.cz/pluginfile.php/707475/mod_folder/intro/projekt1-zadani-2024.pdf)
 
 ## Část 2 (testovací sada) ##
 
 Hodnocení: ?? / 20<br />（?）
 
-Zadanie: [README.md](1/README.md), originál [PRIVATE PDF](https://moodle.vut.cz/pluginfile.php/707475/mod_folder/intro/projekt2-zadani-2024.pdf)
+Zadanie: [ZADANI.md](2/ZADANI.md), originál [PRIVATE PDF](https://moodle.vut.cz/pluginfile.php/707475/mod_folder/intro/projekt2-zadani-2024.pdf)
 
 ----------------------------------------------
