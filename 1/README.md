@@ -1,7 +1,7 @@
 # ITS Projekt 1
 
 - **Autor:** Onegen Something (xonege00)
-- **Dátum:** 2024-04-01
+- **Datum:** 2024-04-01
 
 ## Matice pokrytí artefaktů
 
@@ -16,9 +16,17 @@
 
 ## Matice pokrytí aktivit
 
+|       Aktivita       |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  | 10  | 11  |
+| -------------------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Vyhledávání produktů | x   | x   |     |     | x   |     |     |     |     |     |     |
+| Přidávání do košíku  |     |     | x   | x   | x   | x   | x   |     |     |     |     |
+| Odebrání z košíku    |     |     |     |     |     |     |     | x   |     |     |     |
+| Finalizace nákupu    |     |     |     |     |     |     |     |     | x   | x   |     |
+| Kontrola: Změna ceny |     |     |     |     |     |     |     |     |     |     | x   |
+
 ## Matice Feature-Test
 
-|  Feature súbor   |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  | 10  | 11  |
+|  Feature soubor  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  | 10  | 11  |
 | ---------------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | search.feature   | x   | x   |     |     |     |     |     |     |     |     |     |
 | cart.feature     |     |     | x   | x   | x   | x   | x   | x   |     |     |     |
