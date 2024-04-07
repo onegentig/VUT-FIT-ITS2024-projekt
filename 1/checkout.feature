@@ -6,6 +6,7 @@ Feature: Checkout
      Background:
           Given the user’s shopping cart is not empty
 
+     # Matrix col.: 9
      Scenario: Guest Checkout
           Given the user is not logged in
           When the user proceeds to checkout
@@ -15,6 +16,7 @@ Feature: Checkout
           And the user confirms the order
           Then order confirmation should be displayed
 
+     # Matrix col.: 10
      Scenario: Registered User Checkout
           Given the user is logged in
           And the user has an address saved in address book
@@ -24,6 +26,7 @@ Feature: Checkout
           And the user confirms the order
           Then order confirmation should be displayed
 
+     # Matrix col.: 11
      Scenario Outline: Shipping Cost
           Given the user is checking out with suntotal <subtotal>
           When user selects a shipping method that costs <shipping>

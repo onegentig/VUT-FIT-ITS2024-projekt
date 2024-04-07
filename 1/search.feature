@@ -6,11 +6,13 @@ Feature: Searching
     Background:
         Given the user is on a page with a search bar
 
+    # Matrix col.: 1
     Scenario: Search for existing product
         Given store sells products with "mac" in their name
         When user searches for "mac"
         Then products with "mac" in their name are shown
-    
+
+    # Matrix col.: 2
     Scenario: Search for non-existing product
         Given store does not sell products with "spaghetti" in their name
         When user searches for "spaghetti"
