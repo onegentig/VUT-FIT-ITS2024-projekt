@@ -38,11 +38,9 @@ potřeba identifikaci upřesnit. K tomu může posloužit CSS selektor nebo výr
 
 #### 1.3 Instalace behave
 
-Nainstalujte si projekt behave [Behave] pro automatizaci BDD testů. Vyzkoušejte
-si základní příklad `BDDHello`.
-
-- [Behave](https://behave.readthedocs.io/en/latest/install.html)
-- [BDDHello](https://behave.readthedocs.io/en/latest/tutorial.html)
+Nainstalujte si projekt behave [Behave](https://behave.readthedocs.io/en/latest/install.html)
+pro automatizaci BDD testů. Vyzkoušejte si základní příklad
+[BDDHello](https://behave.readthedocs.io/en/latest/tutorial.html).
 
 #### 1.4 Instalace Python-selenium
 
@@ -60,19 +58,18 @@ V případě, že nemáte počítač s administrátorským přístupem:
 
 Upravte test v jazyce Python pro spuštění na Selenium Server.
 
-Používejte selenium.webdriver.Remote. Inspirujte se na *RTDSeServer* a příkladem
-v souboru `get_driver.py`. Selenium server/grid pro účely projektu ITS musíte
-rozjet na vlastním počítači. Ideální je použít platformu docker a oficiální
-kontejnery pro Selenium Hub (spravuje připojení na jednotlivé automatizované
-webové prohlížeče) a uzly (webové prohlížeče). Pro automatizaci spuštění a ukončení
-Selenium Serveru a testovacího prohlížeče Firefox máte upraven soubor
+Používejte selenium.webdriver.Remote. Inspirujte se na
+[RTDSeServer](https://selenium-python.readthedocs.org/getting-started.html#using-selenium-with-remote-webdriver)
+a příkladem v souboru `get_driver.py`. Selenium server/grid pro účely projektu
+ITS musíte rozjet na vlastním počítači. Ideální je použít platformu docker a
+oficiální kontejnery pro Selenium Hub (spravuje připojení na jednotlivé
+automatizované webové prohlížeče) a uzly (webové prohlížeče). Pro automatizaci
+spuštění a ukončení Selenium Serveru a testovacího prohlížeče Firefox máte
+upraven soubor
 [docker-compose.yml](https://pajda.fit.vutbr.cz/smrcka/its-2023/-/blob/master/projekt2/docker-compose.yml)
 z repozitáře [SUT](https://pajda.fit.vutbr.cz/smrcka/its-2024).
 
 Časový limit pro čekání na DOM elementy je doporučen max 15 sekund.
-
-- [SUT](https://pajda.fit.vutbr.cz/smrcka/its-2024)
-- [RTDSeServer](https://selenium-python.readthedocs.org/getting-started.html#using-selenium-with-remote-webdriver)
 
 ### 2. Implementujte testy
 
