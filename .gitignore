@@ -20,5 +20,9 @@ licence**
 **.tar.gz
 **x???????**
 
-1/README.pdf
 docker-compose.yml
+geckodriver.log
+1/README.pdf
+2/venv
+2/get_driver.py
+2/run-test.sh
