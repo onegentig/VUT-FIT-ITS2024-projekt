@@ -1,4 +1,4 @@
-ZIP_NAME=xonege00.zip
+ZIP_NAME=xkrame00.zip
 
 ###############################################################################
 
@@ -21,6 +21,7 @@ docker-compose.yml:
 
 ocstart: docker-compose.yml
 	docker-compose up -d
+	@sleep 3
 
 ocstop:
 	docker-compose down

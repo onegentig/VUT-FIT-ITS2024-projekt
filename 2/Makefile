@@ -1,4 +1,4 @@
-ZIP_NAME=xonege00.zip
+ZIP_NAME=xkrame00.zip
 
 phony: zip test full-test doc format ocstart ocstop oclogs ocrm
 
