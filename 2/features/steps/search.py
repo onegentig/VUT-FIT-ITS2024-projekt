@@ -1,6 +1,6 @@
 # Behave kroky k otestování vyhledávání (search.feature)
 #
-# @author: onegen (xonege00)
+# @author: onegen (xkrame00)
 # @date: 2024-04-14
 #
 
@@ -10,9 +10,6 @@ from behave.runner import Context
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support import expected_conditions as EC
 
 
 class MyContext(Context):
@@ -54,6 +51,7 @@ def step_impl(context: MyContext, keyword: str):
     )
     product_list = search_content.find_element(By.ID, "product-list")
     assert product_list is not None, "No products found!"
+
     # Kontrola zda produkty obsahují keyword
     product_titles = product_list.find_elements(By.CSS_SELECTOR, ".description h4")
     for title in product_titles:
@@ -66,6 +64,7 @@ def step_impl(context: MyContext):
     search_content = context.driver.find_element(
         By.CSS_SELECTOR, "#product-search #content"
     )
+
     # Najít "not found" zprávu (rychlejší než ověření neexistence produktů)
     message = search_content.find_element(By.XPATH, "/html/body/main/div[2]/div/div/p")
     assert (

@@ -1,6 +1,6 @@
 # Prostředí pro ITS testy v Behave+Selenium+Python
 #
-# @author: onegen (xonege00)
+# @author: onegen (xkrame00)
 # @date: 2024-04-15
 #
 
@@ -10,21 +10,21 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 def before_scenario(context: Context, feature):
-    # Get Chrome driver
+    # Chrome driver
     # context.driver = webdriver.Chrome()
     context.driver = webdriver.Remote(
         command_executor="http://localhost:4444/wd/hub",
         desired_capabilities=DesiredCapabilities.CHROME,
     )
 
-    # Apply suggested implicit wait
+    # Doporučené čekání na DOM elementy
     context.driver.implicitly_wait(15)
 
-    # Other props
+    # Další props
     context.base_url = "http://opencart:8080"
 
 
 def after_scenario(context, feature):
-    # Close and clear the testing browser
+    # Zavřít a vyčistit testovací prohlížeč
     context.driver.quit()
     context.driver = None
