@@ -19,10 +19,20 @@ class MyContext(Context):
 
 @given("the user is on a page with a search bar")
 def step_impl(context: MyContext):
-    context.driver.get(context.base_url)
-    assert (
-        context.driver.find_element(By.ID, "search") is not None
-    ), "No search bar found!"
+    # Rychlá kontrola searche, i tak většinou třeba přejít na homepage
+    has_search = context.driver.execute_script(
+        "return document.getElementById('search') !== null;"
+    )
+
+    if not has_search:
+        context.execute_steps(
+            """
+            Given user is on the store’s homepage
+            """
+        )
+        assert (
+            context.driver.find_element(By.ID, "search") is not None
+        ), "No search bar found even after homepage nav!"
 
 
 @given('store sells products with "{keyword}" in their name')
@@ -55,7 +65,9 @@ def step_impl(context: MyContext, keyword: str):
     # Kontrola zda produkty obsahují keyword
     product_titles = product_list.find_elements(By.CSS_SELECTOR, ".description h4")
     for title in product_titles:
-        assert keyword.lower() in title.text.lower(), "Product without keyword found!"
+        assert (
+            keyword.lower() in title.get_attribute("innerText").lower()
+        ), "Product without keyword found!"
 
 
 @then("no products are shown")
