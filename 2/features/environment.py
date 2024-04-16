@@ -9,7 +9,7 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
-def before_scenario(context: Context, feature):
+def before_all(context: Context):
     # Chrome driver
     # context.driver = webdriver.Chrome()
     context.driver = webdriver.Remote(
@@ -24,7 +24,7 @@ def before_scenario(context: Context, feature):
     context.base_url = "http://opencart:8080"
 
 
-def after_scenario(context, feature):
+def after_all(context):
     # Zavřít a vyčistit testovací prohlížeč
     context.driver.quit()
     context.driver = None

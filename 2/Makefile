@@ -1,6 +1,6 @@
 ZIP_NAME=xkrame00.zip
 
-phony: zip test full-test doc format ocstart ocstop oclogs ocrm
+phony: zip test full doc format ocstart ocstop oclogs ocrm
 
 ########## Zipping, docs etc. ##########
 
@@ -23,14 +23,14 @@ format:
 test:
 	behave
 
-full-test: ocstart
+full: ocstart
 	[ -f "requirements.txt" ] && pip3 install -r requirements.txt
 	behave || true
 	docker-compose down -v
 
 ocstart: docker-compose.yml
 	docker-compose up -d
-	@sleep 3
+	@sleep 10
 
 ocstop:
 	docker-compose down
