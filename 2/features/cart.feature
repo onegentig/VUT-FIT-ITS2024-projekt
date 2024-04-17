@@ -11,7 +11,7 @@ Feature: Shopping Cart
     # Coverage matrix col.: 3
     Scenario: Add to shopping cart from homepage
         Given user is on the store’s homepage
-        And homepage features "iPhone" on its homepage
+        And homepage features "iPhone"
         When user adds "iPhone" to their shopping cart
         Then shopping cart contains "iPhone"
 

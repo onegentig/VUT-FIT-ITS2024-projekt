@@ -171,7 +171,7 @@ def step_impl(context: MyContext, quantity: int, product_name: str):
     toggle_cart(context.driver)
 
 
-@given('homepage features "{product_name}" on its homepage')
+@given('homepage features "{product_name}"')
 def step_impl(context: MyContext, product_name: str):
     # Najít featured sekci
     feat_row = context.driver.find_element(
