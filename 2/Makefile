@@ -30,7 +30,6 @@ full: ocstart
 
 ocstart: docker-compose.yml
 	docker-compose up -d
-	@sleep 10
 
 ocstop:
 	docker-compose down
