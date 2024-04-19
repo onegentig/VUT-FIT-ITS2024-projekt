@@ -116,23 +116,10 @@ def step_impl(context):
 
 @when("user proceeds to checkout")
 def step_impl(context: MyContext):
-    current_url = context.driver.current_url
-    context.driver.get(context.base_url + "?route=checkout/cart")
-    WebDriverWait(context.driver, 15).until(
-        EC.presence_of_element_located(
-            (By.XPATH, "/html/body/main/div[2]/div/div/div[3]/div[2]/a")
-        )
-    )
-    btn_checkout = context.driver.find_element(
-        By.XPATH, "/html/body/main/div[2]/div/div/div[3]/div[2]/a"
-    )
-    context.driver.execute_script("arguments[0].click();", btn_checkout)
-
-    # assert context.driver.current_url.endswith(
-    #    "checkout/checkout"
-    # ), f"Failed to nav to checkout, got {context.driver.current_url}"
-    if not context.driver.current_url.endswith("checkout/checkout"):
-        context.scenario.skip()
+    context.driver.get(context.base_url + "?route=checkout/checkout")
+    assert context.driver.current_url.endswith(
+        "checkout/checkout"
+    ), "Not on checkout page (check for unavailable products)"
 
 
 @when("user selects guest checkout")
@@ -162,7 +149,10 @@ def step_impl(context: MyContext):
     Select(context.driver.find_element(By.ID, "input-shipping-zone")).select_by_value(
         "891"
     )
-    context.driver.find_element(By.ID, "button-register").click()
+    reg_btn = context.driver.find_element(By.ID, "button-register")
+    context.driver.execute_script(
+        "arguments[0].scrollIntoView(); arguments[0].click();", reg_btn
+    )
 
     await_popup_show(context.driver)
     popup_close(context.driver)
@@ -190,7 +180,10 @@ def step_impl(context: MyContext):
         EC.presence_of_element_located((By.ID, "modal-payment"))
     )
     context.driver.find_element(By.ID, "input-payment-method-cod-cod").click()
-    context.driver.find_element(By.ID, "button-shipping-method").click()
+    WebDriverWait(context.driver, 15).until(
+        EC.element_to_be_clickable((By.ID, "button-payment-method"))
+    )
+    context.driver.find_element(By.ID, "button-payment-method").click()
 
     await_popup_show(context.driver)
     popup_close(context.driver)
@@ -200,7 +193,10 @@ def step_impl(context: MyContext):
 @when("user confirms the order")
 def step_impl(context: MyContext):
     current_url = context.driver.current_url
-    context.driver.find_element(By.ID, "button-confirm").click()
+    buy_btn = context.driver.find_element(By.ID, "button-confirm")
+    context.driver.execute_script(
+        "arguments[0].scrollIntoView(); arguments[0].click();", buy_btn
+    )
     WebDriverWait(context.driver, 15).until(EC.url_changes(current_url))
 
 

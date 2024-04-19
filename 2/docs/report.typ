@@ -167,7 +167,6 @@ přidán krok výběru Guest Checkout):
           text(size: 7pt)[
                `Given user is not logged in` \
                `When user proceeds to checkout` \
-               #highlight[#sym.space.thin] \
                `And user fills out `#highlight[`billing and `]`personal information` \
                `And user `#highlight[`fills out`]` shipping `#highlight[`information`] \
                `And user selects a payment method` \
@@ -186,6 +185,8 @@ přidán krok výběru Guest Checkout):
           ],
      )
 ]
+
+#pagebreak()
 
 = Odstraněné testy
 
@@ -217,27 +218,4 @@ Scénář `checkout.feature:3` byl odstraněn kvůli komplikované implementaci
 
 = Failing testy
 
-Scénář `checkout.feature:1` na Docker-kontejneru druhého projektu selže.
-Na rozdíl od prvního, stránka `checkout/checkout` směřuje na `checkout/cart`,
-přestože košík není prázdný. Příčinu se mi nepodařilo najít. Pro jistotu je
-tento scénář v odevzdané verzi přeskočen.
-
-#align(center)[
-#block()[
-#align(left)[
-#text(size: 7pt)[
-     `Scenario: Guest Checkout` \
-     `     Given user is not logged in` \
-     #highlight(fill: rgb("#ff0000a1"))[
-          `     When user proceeds to checkout`
-     ] \
-     `     And user selects guest checkout` \
-     `     And user fills out personal information` \
-     `     And user selects a shipping option` \
-     `     And user selects a payment method` \
-     `     And user confirms the order` \
-     `     Then order confirmation is displayed`
-]
-]
-]
-]
+zatím žádné

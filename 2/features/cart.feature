@@ -51,6 +51,6 @@ Feature: Shopping Cart
 
     # Coverage matrix col.: 8
     Scenario: Remove from shopping cart
-        Given user has "iPhone" in their shopping cart
-        When user removes "iPhone" from their shopping cart
-        Then shopping cart does not contain "iPhone"
+        Given user has "Samsung Galaxy Tab 10.1" in their shopping cart
+        When user removes "Samsung Galaxy Tab 10.1" from their shopping cart
+        Then shopping cart does not contain "Samsung Galaxy Tab 10.1"
