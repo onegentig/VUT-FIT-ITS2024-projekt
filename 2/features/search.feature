@@ -8,7 +8,7 @@ Feature: Searching
     So I can find the product I want to buy
 
     Background:
-        Given the user is on a page with a search bar
+        Given user is on a page with a search bar
 
     # Coverage matrix col.: 1
     Scenario: Search for existing product

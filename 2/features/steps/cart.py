@@ -5,81 +5,16 @@
 #
 
 from behave import *
-from behave.runner import Context
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.remote.webelement import WebElement
-
-
-class MyContext(Context):
-    driver: webdriver.Remote
-    base_url: str
-
-
-### Pomocné funkce ###
-
-
-def toggle_cart(driver: webdriver.Remote):
-    """
-    Otevřít/zavřít košík.
-    """
-    cart = driver.find_element(By.CSS_SELECTOR, "#header-cart button")
-    driver.execute_script("arguments[0].scrollIntoView(); arguments[0].click();", cart)
-
-
-def await_popup_show(driver: webdriver.Remote):
-    """
-    Počkat na zobrazení alert popup-u.
-    """
-    WebDriverWait(driver, 15).until(
-        lambda driver: driver.find_element(By.CSS_SELECTOR, "div#alert").text != ""
-    )
-
-
-def await_popup_hide(driver: webdriver.Remote):
-    """
-    Počkat na skrytí alert popup-u.
-    """
-    WebDriverWait(driver, 15).until(
-        lambda driver: driver.find_element(By.CSS_SELECTOR, "div#alert").text == ""
-    )
-
-
-def popup_close(driver: webdriver.Remote):
-    """
-    Zavřít popup.
-    """
-    close_btn = driver.find_element(By.CSS_SELECTOR, "div#alert button.btn-close")
-    driver.execute_script("arguments[0].click();", close_btn)
-
-
-def find_elem_by_text(
-    elem_list: list[WebElement], text: str, text_selector=None, strict=False
-) -> WebElement | None:
-    """
-    Najít element v listu podle textu.
-    """
-    for elem in elem_list:
-        elem_title = (
-            elem.get_attribute("innerText")
-            if text_selector is None
-            else elem.find_element(By.CSS_SELECTOR, text_selector).get_attribute(
-                "innerText"
-            )
-        )
-
-        if strict:
-            if text == elem_title:
-                return elem
-        else:
-            if text in elem_title:
-                return elem
-    return None
-
-
-### Kroky ###
+from lib.utils import (
+    MyContext,
+    toggle_cart,
+    await_popup_show,
+    await_popup_hide,
+    popup_close,
+    find_elem_by_text,
+)
 
 
 @given("user is on the store’s homepage")

@@ -4,20 +4,13 @@
 # @date: 2024-04-14
 #
 
-
 from behave import *
-from behave.runner import Context
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from lib.utils import MyContext
 
 
-class MyContext(Context):
-    driver: webdriver.Remote
-    base_url: str
-
-
-@given("the user is on a page with a search bar")
+@given("user is on a page with a search bar")
 def step_impl(context: MyContext):
     # Rychlá kontrola searche, i tak většinou třeba přejít na homepage
     has_search = context.driver.execute_script(

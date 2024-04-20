@@ -26,3 +26,4 @@ geckodriver.log
 2/venv
 2/get_driver.py
 2/run-test.sh
+**.pyc

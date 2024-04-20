@@ -1,74 +1,21 @@
-# Behave kroky k otestovaní košíku (cart.feature)
+# Behave kroky k otestovaní checkoutu (checkout.feature)
 #
 # @author: onegen (xkrame00)
 # @date: 2024-04-17
 #
 
 from behave import *
-from behave.runner import Context
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
-
-class MyContext(Context):
-    driver: webdriver.Remote
-    base_url: str
-
-
-## Pomocné funkce ##
-
-
-def check_cart_empty(driver: webdriver.Remote) -> bool:
-    cart = driver.find_element(By.CSS_SELECTOR, "#header-cart button")
-    driver.execute_script("arguments[0].scrollIntoView(); arguments[0].click();", cart)
-
-    empty = False
-    try:
-        empty_note = driver.find_element(
-            By.XPATH, "/html/body/header/div/div/div[3]/div/ul/li"
-        )
-        if empty_note.get_attribute("innerText") == "Your shopping cart is empty!":
-            empty = True
-    except:
-        empty = False
-    finally:
-        cart = driver.find_element(By.CSS_SELECTOR, "#header-cart button")
-        driver.execute_script(
-            "arguments[0].scrollIntoView(); arguments[0].click();", cart
-        )
-        return empty
-
-
-def await_popup_show(driver: webdriver.Remote):
-    """
-    Počkat na zobrazení alert popup-u.
-    """
-    WebDriverWait(driver, 15).until(
-        lambda driver: driver.find_element(By.CSS_SELECTOR, "div#alert").text != ""
-    )
-
-
-def await_popup_hide(driver: webdriver.Remote):
-    """
-    Počkat na skrytí alert popup-u.
-    """
-    WebDriverWait(driver, 15).until(
-        lambda driver: driver.find_element(By.CSS_SELECTOR, "div#alert").text == ""
-    )
-
-
-def popup_close(driver: webdriver.Remote):
-    """
-    Zavřít popup.
-    """
-    close_btn = driver.find_element(By.CSS_SELECTOR, "div#alert button.btn-close")
-    driver.execute_script("arguments[0].click();", close_btn)
-
-
-## Kroky ##
+from lib.utils import (
+    MyContext,
+    check_cart_empty,
+    await_popup_show,
+    await_popup_hide,
+    popup_close,
+)
 
 
 @given("user’s shopping cart is not empty")
