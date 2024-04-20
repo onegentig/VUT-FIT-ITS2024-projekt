@@ -38,13 +38,14 @@ def check_cart_empty(driver: webdriver.Remote) -> bool:
         return empty
 
 
-def await_popup_show(driver: webdriver.Remote):
+def await_popup_show(driver: webdriver.Remote) -> WebElement:
     """
-    Počkat na zobrazení alert popup-u.
+    Počkat na zobrazení alert popup-u a vrátitjeho element.
     """
     WebDriverWait(driver, 15).until(
         lambda driver: driver.find_element(By.CSS_SELECTOR, "div#alert").text != ""
     )
+    return driver.find_element(By.CSS_SELECTOR, "div#alert")
 
 
 def await_popup_hide(driver: webdriver.Remote):
@@ -62,10 +63,18 @@ def popup_close(driver: webdriver.Remote):
     """
     close_btn = driver.find_element(By.CSS_SELECTOR, "div#alert button.btn-close")
     driver.execute_script("arguments[0].click();", close_btn)
+    
+def await_popup_dismiss(driver: webdriver.Remote):
+    """
+    Počkat na zobrazení alert popup-u a zavřít ho.
+    """
+    await_popup_show(driver)
+    popup_close(driver)
+    await_popup_hide(driver)
 
 def get_admin(driver: webdriver.Remote, url: str):
     """
-    driver.get() se zachováním user_token.
+    driver.get() se zachováním user_tokenu.
     """
     user_token = driver.current_url.split("user_token=")[1]
     driver.get(url + '&user_token=' + user_token)
@@ -74,7 +83,7 @@ def find_elem_by_text(
     elem_list: list[WebElement], text: str, text_selector=None, strict=False
 ) -> WebElement | None:
     """
-    Najít element v listu podle textu.
+    Najít element v list-u podle textu.
     """
     for elem in elem_list:
         elem_title = (

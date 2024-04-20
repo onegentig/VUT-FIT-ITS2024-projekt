@@ -7,14 +7,7 @@
 from behave import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from lib.utils import (
-    MyContext,
-    toggle_cart,
-    await_popup_show,
-    await_popup_hide,
-    popup_close,
-    find_elem_by_text,
-)
+from lib.utils import MyContext, await_popup_dismiss, find_elem_by_text, toggle_cart
 
 
 @given("user is on the store’s homepage")
@@ -133,10 +126,7 @@ def step_impl(context: MyContext):
         By.CSS_SELECTOR, "#form-product button#button-cart"
     ).click()
 
-    # Počkat na popup
-    await_popup_show(context.driver)
-    popup_close(context.driver)
-    await_popup_hide(context.driver)
+    await_popup_dismiss(context.driver)
 
 
 @when('user adds "{product_name}" to their shopping cart')
@@ -153,10 +143,7 @@ def step_impl(context: MyContext, product_name: str):
     )
     context.driver.execute_script("arguments[0].click();", product_btn)
 
-    # Počkat na popup (jinak to pokazí další kroky StaleError-em)
-    await_popup_show(context.driver)
-    popup_close(context.driver)
-    await_popup_hide(context.driver)
+    await_popup_dismiss(context.driver)
 
 
 @when('user changes quantity of "{product_name}" to {quantity:d}')
@@ -179,10 +166,7 @@ def step_impl(context: MyContext, product_name: str, quantity: int):
     qty_input.send_keys(str(quantity))
     qty_input.send_keys(Keys.ENTER)
 
-    # Počkat na popup
-    await_popup_show(context.driver)
-    popup_close(context.driver)
-    await_popup_hide(context.driver)
+    await_popup_dismiss(context.driver)
 
 
 @when('user removes "{product_name}" from their shopping cart')
@@ -201,10 +185,7 @@ def step_impl(context: MyContext, product_name: str):
     # Odebrat produkt
     product.find_element(By.CSS_SELECTOR, ".text-end button").click()
 
-    # Počkat na popup
-    await_popup_show(context.driver)
-    popup_close(context.driver)
-    await_popup_hide(context.driver)
+    await_popup_dismiss(context.driver)
 
 
 @then('shopping cart contains "{product_name}"')

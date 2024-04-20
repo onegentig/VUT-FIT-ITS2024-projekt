@@ -9,13 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from lib.utils import (
-    MyContext,
-    check_cart_empty,
-    await_popup_show,
-    await_popup_hide,
-    popup_close,
-)
+from lib.utils import MyContext, await_popup_dismiss, check_cart_empty
 
 
 @given("user’s shopping cart is not empty")
@@ -101,9 +95,7 @@ def step_impl(context: MyContext):
         "arguments[0].scrollIntoView(); arguments[0].click();", reg_btn
     )
 
-    await_popup_show(context.driver)
-    popup_close(context.driver)
-    await_popup_hide(context.driver)
+    await_popup_dismiss(context.driver)
 
 
 @when("user selects a shipping option")
@@ -115,9 +107,7 @@ def step_impl(context: MyContext):
     context.driver.find_element(By.ID, "input-shipping-method-flat-flat").click()
     context.driver.find_element(By.ID, "button-shipping-method").click()
 
-    await_popup_show(context.driver)
-    popup_close(context.driver)
-    await_popup_hide(context.driver)
+    await_popup_dismiss(context.driver)
 
 
 @when("user selects a payment method")
@@ -132,9 +122,7 @@ def step_impl(context: MyContext):
     )
     context.driver.find_element(By.ID, "button-payment-method").click()
 
-    await_popup_show(context.driver)
-    popup_close(context.driver)
-    await_popup_hide(context.driver)
+    await_popup_dismiss(context.driver)
 
 
 @when("user confirms the order")

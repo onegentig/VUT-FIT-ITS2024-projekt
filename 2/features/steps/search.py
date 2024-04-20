@@ -42,6 +42,7 @@ def step_impl(context, keyword):
 def step_impl(context: MyContext, keyword: str):
     search = context.driver.find_element(By.CSS_SELECTOR, "#search input")
     search.click()
+    search.clear()
     search.send_keys(keyword)
     search.send_keys(Keys.ENTER)
 
