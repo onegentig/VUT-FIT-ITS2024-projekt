@@ -7,19 +7,23 @@
 from behave.runner import Context
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support import expected_conditions as EC
+
 
 class MyContext(Context):
     driver: webdriver.Remote
     base_url: str
 
+
 def toggle_cart(driver: webdriver.Remote):
     """
-    Otevřít/zavřít košík.
+    Otevře/zavře košík.
     """
     cart = driver.find_element(By.CSS_SELECTOR, "#header-cart button")
     driver.execute_script("arguments[0].scrollIntoView(); arguments[0].click();", cart)
+
 
 def check_cart_empty(driver: webdriver.Remote) -> bool:
     toggle_cart(driver)
@@ -40,7 +44,7 @@ def check_cart_empty(driver: webdriver.Remote) -> bool:
 
 def await_popup_show(driver: webdriver.Remote) -> WebElement:
     """
-    Počkat na zobrazení alert popup-u a vrátitjeho element.
+    Počká na zobrazení alert popup-u a vrátitjeho element.
     """
     WebDriverWait(driver, 15).until(
         lambda driver: driver.find_element(By.CSS_SELECTOR, "div#alert").text != ""
@@ -50,7 +54,7 @@ def await_popup_show(driver: webdriver.Remote) -> WebElement:
 
 def await_popup_hide(driver: webdriver.Remote):
     """
-    Počkat na skrytí alert popup-u.
+    Po čká na skrytí alert popup-u.
     """
     WebDriverWait(driver, 15).until(
         lambda driver: driver.find_element(By.CSS_SELECTOR, "div#alert").text == ""
@@ -59,31 +63,34 @@ def await_popup_hide(driver: webdriver.Remote):
 
 def popup_close(driver: webdriver.Remote):
     """
-    Zavřít popup.
+    Zavře popup.
     """
     close_btn = driver.find_element(By.CSS_SELECTOR, "div#alert button.btn-close")
     driver.execute_script("arguments[0].click();", close_btn)
-    
+
+
 def await_popup_dismiss(driver: webdriver.Remote):
     """
-    Počkat na zobrazení alert popup-u a zavřít ho.
+    Počká na zobrazení alert popup-u a následně ho zavˇře.
     """
     await_popup_show(driver)
     popup_close(driver)
     await_popup_hide(driver)
 
+
 def get_admin(driver: webdriver.Remote, url: str):
     """
-    driver.get() se zachováním user_tokenu.
+    Zavolá driver.get() se zachováním user_tokenu.
     """
     user_token = driver.current_url.split("user_token=")[1]
-    driver.get(url + '&user_token=' + user_token)
+    driver.get(url + "&user_token=" + user_token)
+
 
 def find_elem_by_text(
     elem_list: list[WebElement], text: str, text_selector=None, strict=False
 ) -> WebElement | None:
     """
-    Najít element v list-u podle textu.
+    Najde element v list-u WebElementů podle textu.
     """
     for elem in elem_list:
         elem_title = (
@@ -101,3 +108,52 @@ def find_elem_by_text(
             if text in elem_title:
                 return elem
     return None
+
+
+def find_product_admin_table(context: MyContext, name: str):
+    """
+    Najde produkt v tabulce produktů v administraci.
+    """
+    get_admin(
+        context.driver,
+        context.base_url + "/administration/index.php?route=catalog/product",
+    )
+
+    # Filtr na vyhledání
+    filter_btn = context.driver.find_element(
+        By.XPATH, '//*[@id="content"]/div[1]/div/div/button[1]'
+    )
+    context.driver.execute_script(
+        "arguments[0].scrollIntoView(); arguments[0].click();", filter_btn
+    )
+    p_filter_in = context.driver.find_element(
+        By.CSS_SELECTOR, 'input[name="filter_name"]'
+    )
+    p_filter_in.clear()
+    p_filter_in.send_keys(name)
+    apply_btn = context.driver.find_element(By.ID, "button-filter")
+    context.driver.execute_script(
+        "arguments[0].scrollIntoView(); arguments[0].click();", apply_btn
+    )
+
+    WebDriverWait(context.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "#form-product table tr"))
+    )
+
+    # Získat všechny produkty
+    products = context.driver.find_elements(By.CSS_SELECTOR, "#form-product table tr")
+
+    # Skontrolovat jestli bylo něco nalezeno
+    if len(products) == 2 and "No results!" in products[1].get_attribute("innerText"):
+        return None
+
+    # Najít produkt
+    product = None
+    for p in products:
+        title = p.find_element(By.CSS_SELECTOR, "td:nth-child(3)").get_attribute(
+            "innerText"
+        )
+        if name in title:
+            product = p
+            break
+    return product

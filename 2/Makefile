@@ -16,7 +16,7 @@ report.pdf: docs/report.typ
 	mv docs/report.pdf .
 
 format:
-	black features/*.py features/steps/*.py
+	black features/*.py features/steps/*.py features/lib/*.py
 
 ########## OpenCart & Selenium ##########
 

@@ -9,57 +9,12 @@ from behave import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from lib.utils import MyContext, await_popup_dismiss, get_admin
-
-
-def find_product_in_table(context: MyContext, name: str):
-    """
-    Pomocná funkce na vyhledání produktu a vrácení řádku tabulky
-    (vrátí None jestli neexistuje).
-    """
-    get_admin(
-        context.driver,
-        context.base_url + "/administration/index.php?route=catalog/product",
-    )
-
-    # Filtr na vyhledání
-    filter_btn = context.driver.find_element(
-        By.XPATH, '//*[@id="content"]/div[1]/div/div/button[1]'
-    )
-    context.driver.execute_script(
-        "arguments[0].scrollIntoView(); arguments[0].click();", filter_btn
-    )
-    p_filter_in = context.driver.find_element(
-        By.CSS_SELECTOR, 'input[name="filter_name"]'
-    )
-    p_filter_in.clear()
-    p_filter_in.send_keys(name)
-    apply_btn = context.driver.find_element(By.ID, "button-filter")
-    context.driver.execute_script(
-        "arguments[0].scrollIntoView(); arguments[0].click();", apply_btn
-    )
-
-    WebDriverWait(context.driver, 15).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, "#form-product table tr"))
-    )
-
-    # Získat všechny produkty
-    products = context.driver.find_elements(By.CSS_SELECTOR, "#form-product table tr")
-
-    # Skontrolovat jestli bylo něco nalezeno
-    if len(products) == 2 and "No results!" in products[1].get_attribute("innerText"):
-        return None
-
-    # Najít produkt
-    product = None
-    for p in products:
-        title = p.find_element(By.CSS_SELECTOR, "td:nth-child(3)").get_attribute(
-            "innerText"
-        )
-        if name in title:
-            product = p
-            break
-    return product
+from lib.utils import (
+    MyContext,
+    await_popup_dismiss,
+    find_product_admin_table,
+    get_admin,
+)
 
 
 @given("admin is logged in")
@@ -67,8 +22,31 @@ def step_impl(context: MyContext):
     if "user_token=" in context.driver.current_url:
         pass
 
-    context.driver.get(context.base_url + "/administration")
+    # Navigace na `/administration` často selže, alespoň tomu dám několik pokusů
+    attempts = 0
+    max_attempts = 3
     curr_page = context.driver.current_url
+    while attempts < max_attempts:
+        if attempts % 2 == 0:
+            context.driver.get(context.base_url + "/administration")
+        else:
+            context.driver.get(context.base_url + "/administration/index.php")
+
+        curr_page = context.driver.current_url
+
+        has_form = context.driver.execute_script(
+            "return document.getElementById('input-username') !== null;"
+        )
+
+        if has_form:
+            break
+        attempts += 1
+        time.sleep(1)
+
+    assert (
+        has_form
+    ), "Navigation to admin login failed after 5 attempts (issue in report.pdf)"
+
     context.driver.find_element(By.ID, "input-username").send_keys("user")
     context.driver.find_element(By.ID, "input-password").send_keys("bitnami")
     context.driver.find_element(By.CSS_SELECTOR, "#form-login button").click()
@@ -86,9 +64,9 @@ def step_impl(context: MyContext):
     )
 
 
-@when('admin opens product "{name}"')
-def step_impl(context: MyContext, name: str):
-    product = find_product_in_table(context, name)
+@when('admin opens product "{product_name}"')
+def step_impl(context: MyContext, product_name: str):
+    product = find_product_admin_table(context, product_name)
     assert product is not None, "Product not found!"
     p_btn = product.find_element(By.CSS_SELECTOR, "td:nth-child(7) a")
     context.driver.execute_script(
@@ -96,17 +74,17 @@ def step_impl(context: MyContext, name: str):
     )
 
 
-@when('admin adds a new product with name "{name}"')
-def step_impl(context: MyContext, name: str):
+@when('admin adds a new product with name "{product_name}"')
+def step_impl(context: MyContext, product_name: str):
     get_admin(
         context.driver,
         context.base_url + "/administration/index.php?route=catalog/product.form",
     )
 
     # General tab
-    context.driver.find_element(By.ID, "input-name-1").send_keys(name)  # Jméno
+    context.driver.find_element(By.ID, "input-name-1").send_keys(product_name)  # Jméno
     context.driver.find_element(By.ID, "input-meta-title-1").send_keys(
-        name.lower().replace(" ", "-")
+        product_name.lower().replace(" ", "-")
     )  # URI
 
     # Data tab
@@ -116,7 +94,7 @@ def step_impl(context: MyContext, name: str):
     context.driver.execute_script(
         "arguments[0].scrollIntoView(); arguments[0].click();", data_tab_btn
     )
-    context.driver.find_element(By.ID, "input-model").send_keys(name)  # Model
+    context.driver.find_element(By.ID, "input-model").send_keys(product_name)  # Model
 
     # SEO tab
     seo_tab_btn = context.driver.find_element(
@@ -126,7 +104,7 @@ def step_impl(context: MyContext, name: str):
         "arguments[0].scrollIntoView(); arguments[0].click();", seo_tab_btn
     )
     context.driver.find_element(By.ID, "input-keyword-0-1").send_keys(
-        name.lower().replace(" ", "-")
+        product_name.lower().replace(" ", "-")
     )
 
     # Potvrdit
@@ -140,9 +118,9 @@ def step_impl(context: MyContext, name: str):
     await_popup_dismiss(context.driver)
 
 
-@when('admin removes the product "{name}"')
-def step_impl(context: MyContext, name: str):
-    product = find_product_in_table(context, name)
+@when('admin removes the product "{product_name}"')
+def step_impl(context: MyContext, product_name: str):
+    product = find_product_admin_table(context, product_name)
     assert product is not None, "Product not found!"
 
     # Zvolit produkt
@@ -166,11 +144,11 @@ def step_impl(context: MyContext, name: str):
     await_popup_dismiss(context.driver)
 
 
-@when('admin renames the product to "{name}"')
-def step_impl(context: MyContext, name: str):
+@when('admin renames the product to "{product_name}"')
+def step_impl(context: MyContext, product_name: str):
     p_name_in = context.driver.find_element(By.ID, "input-name-1")
     p_name_in.clear()
-    p_name_in.send_keys(name)
+    p_name_in.send_keys(product_name)
 
     save_btn = context.driver.find_element(
         By.CSS_SELECTOR, "#content button[type='submit']"
@@ -182,11 +160,13 @@ def step_impl(context: MyContext, name: str):
     await_popup_dismiss(context.driver)
 
 
-@then('product "{name}" is present in the product list')
-def step_impl(context: MyContext, name: str):
-    assert find_product_in_table(context, name) is not None, "Product not found!"
+@then('product "{product_name}" is present in the product list')
+def step_impl(context: MyContext, product_name: str):
+    assert (
+        find_product_admin_table(context, product_name) is not None
+    ), "Product not found!"
 
 
-@then('product "{name}" is not present in the product list')
-def step_impl(context: MyContext, name: str):
-    assert find_product_in_table(context, name) is None, "Product found!"
+@then('product "{product_name}" is not present in the product list')
+def step_impl(context: MyContext, product_name: str):
+    assert find_product_admin_table(context, product_name) is None, "Product found!"

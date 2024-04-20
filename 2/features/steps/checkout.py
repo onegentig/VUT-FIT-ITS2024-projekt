@@ -100,7 +100,10 @@ def step_impl(context: MyContext):
 
 @when("user selects a shipping option")
 def step_impl(context: MyContext):
-    context.driver.find_element(By.ID, "button-shipping-methods").click()
+    ship_btn = context.driver.find_element(By.ID, "button-shipping-methods")
+    context.driver.execute_script(
+        "arguments[0].scrollIntoView(); arguments[0].click();", ship_btn
+    )
     WebDriverWait(context.driver, 15).until(
         EC.presence_of_element_located((By.ID, "modal-shipping"))
     )
