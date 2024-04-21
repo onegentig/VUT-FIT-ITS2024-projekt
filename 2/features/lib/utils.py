@@ -1,9 +1,10 @@
-# Zdílené utility/helper funkce pro ITS projekt 2.
+# Sdílené utility/helper funkce pro ITS projekt 2.
 #
 # @author: onegen (xkrame00)
 # @date: 2024-04-20
 #
 
+import time
 from behave.runner import Context
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -135,6 +136,7 @@ def find_product_admin_table(context: MyContext, name: str):
     context.driver.execute_script(
         "arguments[0].scrollIntoView(); arguments[0].click();", apply_btn
     )
+    time.sleep(2)
 
     WebDriverWait(context.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "#form-product table tr"))

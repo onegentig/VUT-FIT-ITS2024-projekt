@@ -9,7 +9,7 @@ zip: $(ZIP_NAME)
 doc: report.pdf
 
 $(ZIP_NAME): report.pdf
-	zip -9 -v $(ZIP_NAME) report.pdf requirements.txt features/environment.py features/*.feature features/steps/*.py
+	zip -9 -v $(ZIP_NAME) report.pdf requirements.txt features/environment.py features/*.feature features/steps/*.py features/lib/*.py
 
 report.pdf: docs/report.typ
 	typst compile docs/report.typ

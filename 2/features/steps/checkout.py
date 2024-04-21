@@ -37,16 +37,24 @@ def step_impl(context: MyContext):
 
 @given("user is not logged in")
 def step_impl(context):
-    context.driver.find_element(
+    # Otevřít user menu
+    user_menu_btn = context.driver.find_element(
         By.XPATH, "/html/body/nav/div/div[2]/ul/li[2]/div"
-    ).click()
+    )
+    context.driver.execute_script(
+        "arguments[0].scrollIntoView(); arguments[0].click();", user_menu_btn
+    )
+    
+    # Jestli druhé tlačítko není "Login", tak je uživatel přihlášen
     btn_second = context.driver.find_element(
         By.XPATH, "/html/body/nav/div/div[2]/ul/li[2]/div/ul/li[2]/a"
     )
     is_logged_in = btn_second.get_attribute("innerText") != "Login"
-    context.driver.find_element(
-        By.XPATH, "/html/body/nav/div/div[2]/ul/li[2]/div"
-    ).click()
+    
+    # Zavřít
+    context.driver.execute_script(
+        "arguments[0].scrollIntoView(); arguments[0].click();", user_menu_btn
+    )
     assert not is_logged_in, "User is logged in"
 
 
