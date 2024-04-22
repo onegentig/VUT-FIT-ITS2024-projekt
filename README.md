@@ -13,9 +13,9 @@ Celkové Hodnocení: ?? / 40<br />（?）
 
 ## Část 1 (testovací scénáře) ##
 
-Hodnocení: ?? / 20<br />（testy s opravenými chybami v [2/features](2/features)）
+Hodnocení: 20 / 20<br />（nice but not perfect; viz. [2/features](2/features)）
 
-Zadanie: [ZADANI.md](1/ZADANI.md), originál [PRIVATE PDF](https://moodle.vut.cz/pluginfile.php/707475/mod_folder/intro/projekt1-zadani-2024.pdf)
+Zadání: [ZADANI.md](1/ZADANI.md), originál [PRIVATE PDF](https://moodle.vut.cz/pluginfile.php/707475/mod_folder/intro/projekt1-zadani-2024.pdf)
 
 ### Může se hodit ###
 

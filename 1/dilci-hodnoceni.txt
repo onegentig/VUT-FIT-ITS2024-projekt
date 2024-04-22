@@ -1,0 +1,12 @@
+20: celkem bodu
+
+4: features: ok
+3: scenario: ok
+0: given-when-then: ok
+0: syntax: ok
+3: and+but: ok
+2: examples: ok
+2: parameters: ok
+1: clauses: je tam prilis samostatnych/unikatnich klauzuli -> tezke na implementaci
+3: report-test_items: hodila by se rozsirit matice pokryti
+2: report-coverage: hodilo by se lepsi pokryti prvku
