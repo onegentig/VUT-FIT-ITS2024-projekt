@@ -1,0 +1,7 @@
+19:celkem bodu (max 20)
+# - Hodnoceni vlastnosti ------------------------------------------------
+6: kvalita testu a rozsah (selektory, implementace)
+6: vyhodnoceni testu (vyhodnoceni @then)
+3: efektivita testu (nadpouzivani sleep, browser-hacky, ...)
+4: uspesnost testu (implementovanych)
+# - Dalsi poznamky ------------------------------------------------------
